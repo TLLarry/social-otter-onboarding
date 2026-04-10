@@ -403,6 +403,11 @@
           <label for="email">Email Address <span class="required">*</span></label>
           <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" required />
         </div>
+
+        <div class="field">
+          <label for="websiteUrl">Website URL <span class="hint">(optional — we'll create a trackable short link)</span></label>
+          <input type="text" id="websiteUrl" name="websiteUrl" placeholder="https://yourwebsite.com" autocomplete="url" />
+        </div>
       </div>
 
       <hr class="divider" />
@@ -588,13 +593,14 @@
     });
 
     const payload = {
-      fullName:  name,
-      email:     email,
-      platforms: platforms,
-      usernames: usernames,
-      niches:    niches,
+      fullName:   name,
+      email:      email,
+      websiteUrl: form.websiteUrl.value.trim(),
+      platforms:  platforms,
+      usernames:  usernames,
+      niches:     niches,
       nicheOther: otherNiche,
-      notes:     form.notes.value.trim(),
+      notes:      form.notes.value.trim(),
       submittedAt: new Date().toISOString()
     };
 

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Otter — Client Onboarding</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2E8B8A;
+      --teal-light: #3aa3a2;
+      --teal-dim:   #1a3535;
+      --salmon:     #F2A898;
+      --salmon-dim: #3d1f1c;
+      --white:      #ffffff;
+      --bg:         #0D0D0D;
+      --card-bg:    #1a1a1a;
+      --input-bg:   #242424;
+      --border:     #2e4444;
+      --text:       #ffffff;
+      --text-muted: #8aabab;
+      --radius:     10px;
+      --input-h:    48px;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 40px 16px 60px;
+    }
+
+    /* ── CARD ─────────────────────────────────────────────────── */
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(0,0,0,.5), 0 1px 4px rgba(0,0,0,.3);
+      max-width: 620px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    /* ── CARD HEADER ──────────────────────────────────────────── */
+    .card-header {
+      background: var(--teal);
+      padding: 36px 40px 32px;
+      text-align: center;
+    }
+    .logo-wrap {
+      width: 110px;
+      height: 110px;
+      background: var(--white);
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    }
+    .logo-wrap img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+    }
+    .card-header h1 {
+      color: var(--white);
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+    .card-header p {
+      color: rgba(255,255,255,.82);
+      font-size: .9rem;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* ── PROGRESS BAR ─────────────────────────────────────────── */
+    .progress-bar-wrap {
+      background: rgba(255,255,255,.25);
+      border-radius: 20px;
+      height: 6px;
+      margin-top: 22px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      background: var(--salmon);
+      height: 100%;
+      border-radius: 20px;
+      width: 0%;
+      transition: width .4s ease;
+    }
+    .progress-label {
+      color: rgba(255,255,255,.75);
+      font-size: .75rem;
+      margin-top: 6px;
+      text-align: right;
+    }
+
+    /* ── FORM BODY ────────────────────────────────────────────── */
+    .card-body {
+      padding: 36px 40px 40px;
+    }
+
+    /* ── SECTION LABELS ───────────────────────────────────────── */
+    .section-label {
+      font-size: .7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--teal);
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #1e3333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 16px;
+      background: var(--salmon);
+      border-radius: 2px;
+    }
+
+    /* ── FIELD GROUP ──────────────────────────────────────────── */
+    .field-group { margin-bottom: 32px; }
+    .field-group:last-child { margin-bottom: 0; }
+
+    .field {
+      margin-bottom: 20px;
+    }
+    .field:last-child { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 7px;
+    }
+    label .required {
+      color: var(--salmon);
+      margin-left: 3px;
+    }
+    label .hint {
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: .78rem;
+      margin-left: 4px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      height: var(--input-h);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0 14px;
+      font-size: .93rem;
+      color: var(--text);
+      background: var(--input-bg);
+      font-family: inherit;
+      transition: border-color .18s, box-shadow .18s;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    textarea {
+      height: auto;
+      padding: 12px 14px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(46,139,138,.18);
+    }
+    input::placeholder, textarea::placeholder { color: #4a6464; }
+
+    /* ── PLATFORM CHECKBOXES ──────────────────────────────────── */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .platform-check {
+      position: relative;
+    }
+    .platform-check input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+    .platform-check label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 8px;
+      cursor: pointer;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      transition: border-color .18s, background .18s, color .18s, box-shadow .18s;
+      user-select: none;
+      text-align: center;
+      margin-bottom: 0;
+      background: var(--input-bg);
+    }
+    .platform-check input:checked + label {
+      border-color: var(--teal);
+      background: var(--teal-dim);
+      color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(46,139,138,.18);
+    }
+    .platform-check label:hover {
+      border-color: var(--teal-light);
+      color: var(--teal);
+    }
+
+    /* ── USERNAME FIELDS (shown dynamically) ─────────────────── */
+    .username-fields { display: flex; flex-direction: column; gap: 14px; }
+
+    .username-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity .25s ease, max-height .3s ease;
+    }
+    .username-row.visible {
+      opacity: 1;
+      max-height: 80px;
+    }
+    .username-row .platform-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--teal-dim);
+      color: var(--teal);
+      border-radius: 8px;
+      padding: 0 12px;
+      height: var(--input-h);
+      font-size: .8rem;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 110px;
+      justify-content: center;
+    }
+
+    /* ── NICHE BUBBLES ────────────────────────────────────────── */
+    .niche-bubbles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .niche-bubble {
+      position: relative;
+    }
+    .niche-bubble input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+    .niche-bubble label {
+      display: inline-block;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .15s;
+      margin-bottom: 0;
+      background: var(--input-bg);
+    }
+    .niche-bubble input:checked + label {
+      background: var(--salmon);
+      border-color: var(--salmon);
+      color: #1a0a08;
+      font-weight: 600;
+    }
+    .niche-bubble label:hover {
+      border-color: var(--salmon);
+      color: var(--salmon);
+    }
+
+    .niche-other-wrap {
+      margin-top: 4px;
+    }
+
+    /* ── SUBMIT BUTTON ────────────────────────────────────────── */
+    .btn-submit {
+      display: block;
+      width: 100%;
+      height: 54px;
+      background: var(--teal);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .4px;
+      cursor: pointer;
+      transition: background .18s, transform .1s, box-shadow .18s;
+      margin-top: 32px;
+      font-family: inherit;
+      box-shadow: 0 4px 14px rgba(46,139,138,.3);
+    }
+    .btn-submit:hover {
+      background: var(--teal-light);
+      box-shadow: 0 6px 20px rgba(46,139,138,.38);
+    }
+    .btn-submit:active { transform: scale(.98); }
+
+    /* ── SUCCESS STATE ────────────────────────────────────────── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 56px 40px;
+    }
+    .success-screen .checkmark {
+      width: 72px; height: 72px;
+      background: var(--teal-dim);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      color: var(--teal);
+      margin: 0 auto 22px;
+    }
+    .success-screen h2 { font-size: 1.4rem; color: var(--teal); margin-bottom: 10px; }
+    .success-screen p { color: var(--text-muted); font-size: .92rem; line-height: 1.6; }
+
+    /* ── DIVIDER ──────────────────────────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1.5px solid #252f2f;
+      margin: 28px 0;
+    }
+
+    /* ── MOBILE ───────────────────────────────────────────────── */
+    @media (max-width: 500px) {
+      body { padding: 0 0 48px; }
+      .card { border-radius: 0; box-shadow: none; }
+      .card-header { padding: 28px 24px 26px; }
+      .card-body { padding: 28px 24px 32px; }
+      .platform-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .platform-check label { padding: 12px 6px; font-size: .75rem; }
+      .platform-check label .platform-icon { font-size: 1.35rem; }
+      .username-row .platform-badge { min-width: 90px; font-size: .73rem; padding: 0 8px; }
+      .success-screen { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+
+  <!-- HEADER -->
+  <div class="card-header">
+    <div class="logo-wrap">
+      <img src="Social_Otter_1.png" alt="Social Otter Logo" />
+    </div>
+    <h1>Client Onboarding</h1>
+    <p>Welcome! Let's get your Social Otter account set up.<br>This takes about 2 minutes.</p>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">0% complete</div>
+  </div>
+
+  <!-- FORM -->
+  <div class="card-body" id="formBody">
+    <form id="onboardingForm" novalidate>
+
+      <!-- ── SECTION 1: YOUR INFO ── -->
+      <div class="field-group">
+        <div class="section-label">Your Information</div>
+
+        <div class="field">
+          <label for="fullName">Full Name <span class="required">*</span></label>
+          <input type="text" id="fullName" name="fullName" placeholder="Jane Smith" autocomplete="name" required />
+        </div>
+
+        <div class="field">
+          <label for="email">Email Address <span class="required">*</span></label>
+          <input type="email" id="email" name="email" placeholder="jane@example.com" autocomplete="email" required />
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ── SECTION 2: PLATFORMS ── -->
+      <div class="field-group">
+        <div class="section-label">Platforms</div>
+
+        <div class="field">
+          <label>Which platforms do you want to post on? <span class="required">*</span></label>
+          <div class="platform-grid">
+
+            <div class="platform-check">
+              <input type="checkbox" id="chkTikTok" name="platforms" value="TikTok" onchange="toggleUsername('TikTok', this.checked)" />
+              <label for="chkTikTok">TikTok</label>
+            </div>
+
+            <div class="platform-check">
+              <input type="checkbox" id="chkInstagram" name="platforms" value="Instagram" onchange="toggleUsername('Instagram', this.checked)" />
+              <label for="chkInstagram">Instagram</label>
+            </div>
+
+            <div class="platform-check">
+              <input type="checkbox" id="chkFacebook" name="platforms" value="Facebook" onchange="toggleUsername('Facebook', this.checked)" />
+              <label for="chkFacebook">Facebook</label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Username fields — shown when platform is checked -->
+        <div class="field">
+          <label>Your username / handle <span class="hint">(for each selected platform)</span></label>
+          <div class="username-fields">
+
+            <div class="username-row" id="row-TikTok">
+              <div class="platform-badge">TikTok</div>
+              <input type="text" id="user-TikTok" name="userTikTok" placeholder="@yourusername" />
+            </div>
+
+            <div class="username-row" id="row-Instagram">
+              <div class="platform-badge">Instagram</div>
+              <input type="text" id="user-Instagram" name="userInstagram" placeholder="@yourusername" />
+            </div>
+
+            <div class="username-row" id="row-Facebook">
+              <div class="platform-badge">Facebook</div>
+              <input type="text" id="user-Facebook" name="userFacebook" placeholder="Page name or @handle" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ── SECTION 3: CONTENT NICHE ── -->
+      <div class="field-group">
+        <div class="section-label">Content Niche</div>
+
+        <div class="field">
+          <label>What best describes your content? <span class="hint">(pick all that apply)</span></label>
+          <div class="niche-bubbles">
+            <div class="niche-bubble"><input type="checkbox" id="n1" name="niche" value="Beauty & Lifestyle" /><label for="n1">Beauty &amp; Lifestyle</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n2" name="niche" value="Food & Drink" /><label for="n2">Food &amp; Drink</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n3" name="niche" value="Fitness & Health" /><label for="n3">Fitness &amp; Health</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n4" name="niche" value="Travel" /><label for="n4">Travel</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n5" name="niche" value="Business & Entrepreneur" /><label for="n5">Business &amp; Entrepreneur</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n6" name="niche" value="Education" /><label for="n6">Education</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n7" name="niche" value="Real Estate" /><label for="n7">Real Estate</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n8" name="niche" value="Fashion" /><label for="n8">Fashion</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n9" name="niche" value="Comedy & Entertainment" /><label for="n9">Comedy &amp; Entertainment</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n10" name="niche" value="Tech & Gaming" /><label for="n10">Tech &amp; Gaming</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n12" name="niche" value="Ministry" /><label for="n12">Ministry</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n13" name="niche" value="Nonprofit" /><label for="n13">Nonprofit</label></div>
+            <div class="niche-bubble"><input type="checkbox" id="n11" name="niche" value="Other" onchange="toggleOtherNiche(this.checked)" /><label for="n11">Other</label></div>
+          </div>
+
+          <div class="niche-other-wrap" id="otherNicheWrap" style="display:none">
+            <input type="text" id="nicheOther" name="nicheOther" placeholder="Describe your niche..." />
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ── SECTION 4: NOTES ── -->
+      <div class="field-group">
+        <div class="section-label">Additional Notes</div>
+
+        <div class="field">
+          <label for="notes">Anything else we should know? <span class="hint">(optional)</span></label>
+          <textarea id="notes" name="notes" rows="4" placeholder="Posting goals, brand voice, content schedule preferences, anything you'd like us to know..."></textarea>
+        </div>
+      </div>
+
+      <!-- SUBMIT -->
+      <button type="submit" class="btn-submit" id="submitBtn">Submit Onboarding Form</button>
+
+    </form>
+  </div><!-- /card-body -->
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="successScreen">
+    <div class="checkmark">✓</div>
+    <h2>You're all set!</h2>
+    <p>Thanks for completing your onboarding.<br>The Social Otter team will be in touch shortly to get your content calendar rolling.</p>
+  </div>
+
+</div><!-- /card -->
+
+<script>
+  /* ── PLATFORM USERNAME TOGGLE ─────────────────────────────── */
+  function toggleUsername(platform, show) {
+    const row = document.getElementById('row-' + platform);
+    if (show) {
+      row.classList.add('visible');
+    } else {
+      row.classList.remove('visible');
+      document.getElementById('user-' + platform).value = '';
+    }
+    updateProgress();
+  }
+
+  /* ── OTHER NICHE TOGGLE ───────────────────────────────────── */
+  function toggleOtherNiche(show) {
+    document.getElementById('otherNicheWrap').style.display = show ? 'block' : 'none';
+    if (!show) document.getElementById('nicheOther').value = '';
+  }
+
+  /* ── PROGRESS BAR ─────────────────────────────────────────── */
+  function updateProgress() {
+    const form = document.getElementById('onboardingForm');
+    let filled = 0;
+    const total = 4; // name, email, platform, niche
+
+    if (form.fullName.value.trim())                              filled++;
+    if (form.email.value.trim() && form.email.value.includes('@')) filled++;
+    if ([...form.querySelectorAll('input[name="platforms"]:checked')].length > 0) filled++;
+    if ([...form.querySelectorAll('input[name="niche"]:checked')].length > 0)     filled++;
+
+    const pct = Math.round((filled / total) * 100);
+    document.getElementById('progressFill').style.width  = pct + '%';
+    document.getElementById('progressLabel').textContent = pct + '% complete';
+  }
+
+  // Wire up progress tracking
+  document.getElementById('onboardingForm').addEventListener('input', updateProgress);
+
+  /* ── FORM VALIDATION & SUBMIT ─────────────────────────────── */
+  document.getElementById('onboardingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const form   = this;
+    const errors = [];
+
+    // Required: name
+    const name = form.fullName.value.trim();
+    if (!name) errors.push('Full Name is required.');
+
+    // Required: email
+    const email = form.email.value.trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!email) errors.push('Email Address is required.');
+    else if (!emailOk) errors.push('Please enter a valid email address.');
+
+    // Required: at least one platform
+    const platforms = [...form.querySelectorAll('input[name="platforms"]:checked')].map(c => c.value);
+    if (platforms.length === 0) errors.push('Please select at least one platform.');
+
+    if (errors.length > 0) {
+      alert(errors.join('\n'));
+      return;
+    }
+
+    // Collect data (for console / future submission hook)
+    const niches = [...form.querySelectorAll('input[name="niche"]:checked')].map(c => c.value);
+    const otherNiche = form.nicheOther ? form.nicheOther.value.trim() : '';
+    const usernames = {};
+    platforms.forEach(p => {
+      const el = document.getElementById('user-' + p);
+      if (el) usernames[p] = el.value.trim();
+    });
+
+    const payload = {
+      fullName:  name,
+      email:     email,
+      platforms: platforms,
+      usernames: usernames,
+      niches:    niches,
+      nicheOther: otherNiche,
+      notes:     form.notes.value.trim(),
+      submittedAt: new Date().toISOString()
+    };
+
+    console.log('Social Otter Onboarding Submission:', payload);
+
+    // Show success
+    document.getElementById('formBody').style.display  = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+    document.getElementById('progressFill').style.width  = '100%';
+    document.getElementById('progressLabel').textContent = '100% complete';
+  });
+</script>
+</body>
+</html>

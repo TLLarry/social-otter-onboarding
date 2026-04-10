@@ -598,16 +598,29 @@
       submittedAt: new Date().toISOString()
     };
 
-var xhr = new XMLHttpRequest();
-xhr.open('POST', 'https://script.google.com/macros/s/AKfycbybafm3CQDt3O0pDzoO2gWkSpX3HcOF1-uYhRiR-Bn99mY8MldrkLLv6xRgNLq6TUVr/exec');
-xhr.setRequestHeader('Content-Type', 'application/json');
-xhr.send(JSON.stringify(payload));
+    // ── SEND TO GOOGLE SHEET ──────────────────────────────────
+    // GET + encoded payload avoids the 302 redirect body-drop bug
+    // that breaks fetch POST requests to Google Apps Script.
+    const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbybafm3CQDt3O0pDzoO2gWkSpX3HcOF1-uYhRiR-Bn99mY8MldrkLLv6xRgNLq6TUVr/exec';
 
-    // Show success
-    document.getElementById('formBody').style.display  = 'none';
-    document.getElementById('successScreen').style.display = 'block';
-    document.getElementById('progressFill').style.width  = '100%';
-    document.getElementById('progressLabel').textContent = '100% complete';
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    const requestUrl = WEBHOOK_URL + '?data=' + encodeURIComponent(JSON.stringify(payload));
+
+    fetch(requestUrl, { method: 'GET', mode: 'no-cors' })
+    .then(() => {
+      document.getElementById('formBody').style.display     = 'none';
+      document.getElementById('successScreen').style.display = 'block';
+      document.getElementById('progressFill').style.width   = '100%';
+      document.getElementById('progressLabel').textContent  = '100% complete';
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Submit Onboarding Form';
+      alert('Submission failed — please check your connection and try again.');
+    });
   });
 </script>
 </body>

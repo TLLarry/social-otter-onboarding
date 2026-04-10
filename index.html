@@ -598,7 +598,7 @@
       submittedAt: new Date().toISOString()
     };
 
-    console.log('Social Otter Onboarding Submission:', payload);
+    fetch('https://script.google.com/macros/s/AKfycbybafm3CQDt3O0pDzoO2gWkSpX3HcOF1-uYhRiR-Bn99mY8MldrkLLv6xRgNLq6TUVr/exec', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
 
     // Show success
     document.getElementById('formBody').style.display  = 'none';

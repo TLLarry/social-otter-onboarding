@@ -598,7 +598,10 @@
       submittedAt: new Date().toISOString()
     };
 
-    fetch('https://script.google.com/macros/s/AKfycbybafm3CQDt3O0pDzoO2gWkSpX3HcOF1-uYhRiR-Bn99mY8MldrkLLv6xRgNLq6TUVr/exec', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+var xhr = new XMLHttpRequest();
+xhr.open('POST', 'https://script.google.com/macros/s/AKfycbybafm3CQDt3O0pDzoO2gWkSpX3HcOF1-uYhRiR-Bn99mY8MldrkLLv6xRgNLq6TUVr/exec');
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.send(JSON.stringify(payload));
 
     // Show success
     document.getElementById('formBody').style.display  = 'none';

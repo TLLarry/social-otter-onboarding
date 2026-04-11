@@ -263,47 +263,26 @@
       justify-content: center;
     }
 
-    /* ── NICHE BUBBLES ────────────────────────────────────────── */
-    .niche-bubbles {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-    .niche-bubble {
+    /* ── SELECT ARROW ────────────────────────────────────────── */
+    .select-wrap {
       position: relative;
     }
-    .niche-bubble input[type="checkbox"] {
+    .select-wrap::after {
+      content: '';
       position: absolute;
-      opacity: 0;
-      width: 0; height: 0;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%238aabab' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      pointer-events: none;
     }
-    .niche-bubble label {
-      display: inline-block;
-      border: 1.5px solid var(--border);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: .8rem;
-      font-weight: 500;
-      color: var(--text-muted);
+    .select-wrap select {
+      padding-right: 36px;
       cursor: pointer;
-      transition: all .15s;
-      margin-bottom: 0;
-      background: var(--input-bg);
-    }
-    .niche-bubble input:checked + label {
-      background: var(--salmon);
-      border-color: var(--salmon);
-      color: #1a0a08;
-      font-weight: 600;
-    }
-    .niche-bubble label:hover {
-      border-color: var(--salmon);
-      color: var(--salmon);
-    }
-
-    .niche-other-wrap {
-      margin-top: 4px;
     }
 
     /* ── SUBMIT BUTTON ────────────────────────────────────────── */
@@ -464,30 +443,55 @@
 
       <hr class="divider" />
 
-      <!-- ── SECTION 3: CONTENT NICHE ── -->
+      <!-- ── SECTION 3: CONTENT DETAILS ── -->
       <div class="field-group">
-        <div class="section-label">Content Niche</div>
+        <div class="section-label">Content Details</div>
 
         <div class="field">
-          <label>What best describes your content? <span class="hint">(pick all that apply)</span></label>
-          <div class="niche-bubbles">
-            <div class="niche-bubble"><input type="checkbox" id="n1" name="niche" value="Beauty & Lifestyle" /><label for="n1">Beauty &amp; Lifestyle</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n2" name="niche" value="Food & Drink" /><label for="n2">Food &amp; Drink</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n3" name="niche" value="Fitness & Health" /><label for="n3">Fitness &amp; Health</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n4" name="niche" value="Travel" /><label for="n4">Travel</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n5" name="niche" value="Business & Entrepreneur" /><label for="n5">Business &amp; Entrepreneur</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n6" name="niche" value="Education" /><label for="n6">Education</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n7" name="niche" value="Real Estate" /><label for="n7">Real Estate</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n8" name="niche" value="Fashion" /><label for="n8">Fashion</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n9" name="niche" value="Comedy & Entertainment" /><label for="n9">Comedy &amp; Entertainment</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n10" name="niche" value="Tech & Gaming" /><label for="n10">Tech &amp; Gaming</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n12" name="niche" value="Ministry" /><label for="n12">Ministry</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n13" name="niche" value="Nonprofit" /><label for="n13">Nonprofit</label></div>
-            <div class="niche-bubble"><input type="checkbox" id="n11" name="niche" value="Other" onchange="toggleOtherNiche(this.checked)" /><label for="n11">Other</label></div>
+          <label for="contentNiche">Content Niche <span class="required">*</span></label>
+          <div class="select-wrap">
+            <select id="contentNiche" name="contentNiche" required>
+              <option value="" disabled selected>Select your niche…</option>
+              <option value="Beauty & Lifestyle">Beauty &amp; Lifestyle</option>
+              <option value="Food & Restaurant">Food &amp; Restaurant</option>
+              <option value="Fitness & Health">Fitness &amp; Health</option>
+              <option value="Real Estate">Real Estate</option>
+              <option value="Business & Entrepreneurship">Business &amp; Entrepreneurship</option>
+              <option value="Education & Coaching">Education &amp; Coaching</option>
+              <option value="Travel">Travel</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Comedy & Entertainment">Comedy &amp; Entertainment</option>
+              <option value="Tech & Gaming">Tech &amp; Gaming</option>
+              <option value="Ministry">Ministry</option>
+              <option value="Nonprofit">Nonprofit</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
+        </div>
 
-          <div class="niche-other-wrap" id="otherNicheWrap" style="display:none">
-            <input type="text" id="nicheOther" name="nicheOther" placeholder="Describe your niche..." />
+        <div class="field">
+          <label for="timezone">Your Timezone <span class="required">*</span></label>
+          <div class="select-wrap">
+            <select id="timezone" name="timezone" required>
+              <option value="" disabled selected>Select your timezone…</option>
+              <optgroup label="United States">
+                <option value="America/New_York">Eastern Time (ET)</option>
+                <option value="America/Chicago">Central Time (CT)</option>
+                <option value="America/Denver">Mountain Time (MT)</option>
+                <option value="America/Los_Angeles">Pacific Time (PT)</option>
+                <option value="America/Phoenix">Arizona (no DST)</option>
+                <option value="Pacific/Honolulu">Hawaii (HT)</option>
+                <option value="America/Anchorage">Alaska (AKT)</option>
+              </optgroup>
+              <optgroup label="Other">
+                <option value="America/Toronto">Toronto (ET)</option>
+                <option value="America/Vancouver">Vancouver (PT)</option>
+                <option value="Europe/London">London (GMT/BST)</option>
+                <option value="Europe/Paris">Paris (CET/CEST)</option>
+                <option value="Australia/Sydney">Sydney (AEST/AEDT)</option>
+                <option value="Pacific/Auckland">Auckland (NZST/NZDT)</option>
+              </optgroup>
+            </select>
           </div>
         </div>
       </div>
@@ -532,22 +536,17 @@
     updateProgress();
   }
 
-  /* ── OTHER NICHE TOGGLE ───────────────────────────────────── */
-  function toggleOtherNiche(show) {
-    document.getElementById('otherNicheWrap').style.display = show ? 'block' : 'none';
-    if (!show) document.getElementById('nicheOther').value = '';
-  }
-
   /* ── PROGRESS BAR ─────────────────────────────────────────── */
   function updateProgress() {
     const form = document.getElementById('onboardingForm');
     let filled = 0;
-    const total = 4; // name, email, platform, niche
+    const total = 5; // name, email, platform, niche, timezone
 
     if (form.fullName.value.trim())                              filled++;
     if (form.email.value.trim() && form.email.value.includes('@')) filled++;
     if ([...form.querySelectorAll('input[name="platforms"]:checked')].length > 0) filled++;
-    if ([...form.querySelectorAll('input[name="niche"]:checked')].length > 0)     filled++;
+    if (form.contentNiche && form.contentNiche.value)            filled++;
+    if (form.timezone && form.timezone.value)                    filled++;
 
     const pct = Math.round((filled / total) * 100);
     document.getElementById('progressFill').style.width  = pct + '%';
@@ -578,14 +577,20 @@
     const platforms = [...form.querySelectorAll('input[name="platforms"]:checked')].map(c => c.value);
     if (platforms.length === 0) errors.push('Please select at least one platform.');
 
+    // Required: content niche
+    const contentNiche = form.contentNiche.value;
+    if (!contentNiche) errors.push('Please select a Content Niche.');
+
+    // Required: timezone
+    const timezone = form.timezone.value;
+    if (!timezone) errors.push('Please select your Timezone.');
+
     if (errors.length > 0) {
       alert(errors.join('\n'));
       return;
     }
 
-    // Collect data (for console / future submission hook)
-    const niches = [...form.querySelectorAll('input[name="niche"]:checked')].map(c => c.value);
-    const otherNiche = form.nicheOther ? form.nicheOther.value.trim() : '';
+    // Collect usernames per platform
     const usernames = {};
     platforms.forEach(p => {
       const el = document.getElementById('user-' + p);
@@ -593,15 +598,15 @@
     });
 
     const payload = {
-      fullName:   name,
-      email:      email,
-      websiteUrl: form.websiteUrl.value.trim(),
-      platforms:  platforms,
-      usernames:  usernames,
-      niches:     niches,
-      nicheOther: otherNiche,
-      notes:      form.notes.value.trim(),
-      submittedAt: new Date().toISOString()
+      fullName:     name,
+      email:        email,
+      websiteUrl:   form.websiteUrl.value.trim(),
+      platforms:    platforms,
+      usernames:    usernames,
+      contentNiche: contentNiche,
+      timezone:     timezone,
+      notes:        form.notes.value.trim(),
+      submittedAt:  new Date().toISOString()
     };
 
     // ── SEND TO GOOGLE SHEET ──────────────────────────────────

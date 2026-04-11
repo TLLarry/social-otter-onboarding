@@ -148,7 +148,7 @@
       color: var(--salmon);
       margin-left: 3px;
     }
-    label .hint {
+    label .hint, .field-hint {
       font-weight: 400;
       color: var(--text-muted);
       font-size: .78rem;
@@ -384,8 +384,9 @@
         </div>
 
         <div class="field">
-          <label for="websiteUrl">Website URL <span class="hint">(optional — we'll create a trackable short link)</span></label>
+          <label for="websiteUrl">Your Website URL <span class="hint">(optional)</span></label>
           <input type="text" id="websiteUrl" name="websiteUrl" placeholder="https://yourwebsite.com" autocomplete="url" />
+          <div class="field-hint">We'll track how many visitors your social posts drive to your site each week.</div>
         </div>
       </div>
 
